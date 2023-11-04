@@ -50,6 +50,9 @@ def adjustBrightness():
     time.sleep(1)
     sync()
 
+def changeColour():
+    pass
+
 def sync():
     command = {
         "msg": {
