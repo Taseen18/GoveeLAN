@@ -13,7 +13,24 @@ running = True
 
 
 def discoverDevices():
-    pass
+    sendDiscoveryPacket()
+
+def sendDiscoveryPacket():
+    discovery_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+
+    # Define the "cmd: scan" command for discovery
+    cmd_scan = {
+        "msg": {
+            "cmd": "scan",
+            "data": {
+                "account_topic": "reserve"
+            }
+        }
+    }
+
+    cmd_scan_json = json.dumps(cmd_scan)
+    discovery_socket.sendto(cmd_scan_json.encode('utf-8'), (multicast_ip, multicast_port))
+    discovery_socket.close()
         
 def powerOn(device_ip):
     command = {
@@ -41,7 +58,7 @@ def powerOff(device_ip):
     time.sleep(1)
     sync()
 
-def adjustBrightness():
+def adjustBrightness(device_ip):
     brightness = -1
     while brightness < 1 or brightness > 100:
         brightness = int(input("\nEnter Brightness (1-100): "))
