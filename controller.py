@@ -212,15 +212,29 @@ def deviceMenu():
             print(str(len(responses)+1) + ". Enter Custom IP")
             print(str(len(responses)+2) + ". (quit)")
             selectedDevice = input("--> ")
+            try:
+                selectedDevice = int(selectedDevice)
+                if int(selectedDevice) > 0 and int(selectedDevice) <= len(responses):
+                    device_ip = getDeviceIP(int(selectedDevice)-1)
+                    controlMenu(device_ip)
+                elif int(selectedDevice) == len(responses)+1:
+                    device_ip = str(input("\n Enter Custom IP: "))
+                    controlMenu(device_ip)
+                elif selectedDevice == len(responses)+2:
+                    break
+            except:
+                if str(selectedDevice.lower()) == 'quit':
+                    break
+
             if int(selectedDevice) > 0 and int(selectedDevice) <= len(responses):
                 device_ip = getDeviceIP(int(selectedDevice)-1)
                 controlMenu(device_ip)
             elif int(selectedDevice) == len(responses)+1:
                 device_ip = str(input("\n Enter Custom IP: "))
                 controlMenu(device_ip)
-            elif int(selectedDevice) == len(responses)+2 or selectedDevice.lower() == 'quit':
+            elif int(selectedDevice) == len(responses)+2 or str(selectedDevice.lower()) == 'quit':
                 break
-        
+    
 
 print("\nDevices: ", discoverDevices())
 #print(discoverDevices())
